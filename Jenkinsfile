@@ -1,0 +1,76 @@
+pipeline {
+    agent any
+    tools {
+        maven 'maven'
+    }
+    environment {
+        SCANNER_HOME = tool 'sonar-scanner'
+    }
+    stages {
+        stage('git-checkout') {
+            steps {
+                script {
+                    git branch: 'dev', url: 'https://github.com/Elvis-Ikay/JavaWeb3.git'
+                }
+            }
+        }
+        stage('build') {
+            steps {
+                script {
+                    sh 'mvn clean install'
+                }
+            }
+        }
+        stage('code-analysis') {
+            steps {
+                withSonarQubeEnv('sonar') {
+                    script {
+                        sh """
+                            ${SCANNER_HOME}/bin/sonar-scanner \
+                                -Dsonar.projectKey=webapp \
+                                -Dsonar.projectName=webapp\
+                                -Dsonar.host.url=http://54.221.41.4:9000\
+                                -Dsonar.java.binaries=target/classes
+                        """
+                    }
+                }
+            }
+        }
+        stage('nexus-uploader') {
+            steps {
+                script {
+
+                    def warFile = findFiles(glob: 'target/*.war')[0].path
+
+                    nexusArtifactUploader(
+                        artifacts: [[
+                            artifactId: 'web',
+                            classifier: '',
+                            file: warFile,
+                            type: 'war'
+                        ]],
+                        credentialsId: 'nexus-creds',
+                        groupId: 'webapp',
+                        nexusUrl: '54.221.41.4:8081/',
+                        nexusVersion: 'nexus3',
+                        protocol: 'http',
+                        repository: 'artifacts',
+                        version: "${BUILD_NUMBER}"
+                    )
+                }
+            }
+        }
+        stage('deploy-to-tomcat') {
+            steps {
+                script {
+                    deploy adapters: [tomcat9(
+                        alternativeDeploymentContext: '',
+                        credentialsId: 'nexusandtomcat',
+                        path: '',
+                        url: 'http://18.234.246.34:8080/manager/text'
+                    )], war: '**/*.war'
+                }
+            }
+        }
+    }
+}
