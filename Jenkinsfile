@@ -36,7 +36,7 @@ pipeline {
                             ${SCANNER_HOME}/bin/sonar-scanner \
                                 -Dsonar.projectKey=webapp \
                                 -Dsonar.projectName=webapp\
-                                -Dsonar.host.url=http://54.221.41.4:9000\
+                                -Dsonar.host.url=http://54.242.120.190:9000\
                                 -Dsonar.java.binaries=target/classes
                         """
                     }
