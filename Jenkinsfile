@@ -1,5 +1,12 @@
 pipeline {
     agent any
+
+    triggers {
+        // Trigger build when GitHub/GitLab/Bitbucket webhook fires
+        githubPush()   // if using GitHub
+        // pollSCM('H/5 * * * *') // fallback: poll every 5 minutes if webhook not working
+    }
+
     tools {
         maven 'maven'
     }
