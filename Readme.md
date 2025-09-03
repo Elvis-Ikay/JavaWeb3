@@ -43,4 +43,4 @@ mvn clean install
 # Run tests
 mvn test
 
-Thank you for your time
+Thank you for your times
