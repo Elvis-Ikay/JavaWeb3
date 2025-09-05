@@ -3,7 +3,7 @@ pipeline {
 
     triggers {
         // Trigger build when GitHub/GitLab/Bitbucket webhook fires
-        githubPush()   // if using GitHub
+        githubPush()
         // pollSCM('H/5 * * * *') // fallback: poll every 5 minutes if webhook not working
     }
 
