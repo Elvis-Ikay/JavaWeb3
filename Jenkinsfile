@@ -21,14 +21,14 @@ pipeline {
                 }
             }
         }
-       stage('Clean Workspace') {
-            steps {
-                script {
-                    // Deletes everything in the Jenkins workspace, including .scannerwork
-                    deleteDir()
-                }
-            }
-        }
+//        stage('Clean Workspace') {
+//             steps {
+//                 script {
+//                     // Deletes everything in the Jenkins workspace, including .scannerwork
+//                     deleteDir()
+//                 }
+//             }
+//         }
         stage('build') {
             steps {
                 script {
