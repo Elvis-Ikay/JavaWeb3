@@ -3,7 +3,7 @@ pipeline {
 
     triggers {
         // Trigger build when GitHub/GitLab/Bitbucket webhook fires
-        githubPush()
+        githubPush()   // if using GitHub
         // pollSCM('H/5 * * * *') // fallback: poll every 5 minutes if webhook not working
     }
 
@@ -18,14 +18,6 @@ pipeline {
             steps {
                 script {
                     git branch: 'dev', url: 'https://github.com/Elvis-Ikay/JavaWeb3.git'
-                }
-            }
-        }
-       stage('Clean Workspace') {
-            steps {
-                script {
-                    // Deletes everything in the Jenkins workspace, including .scannerwork
-                    deleteDir()
                 }
             }
         }
@@ -45,7 +37,6 @@ pipeline {
                             ${SCANNER_HOME}/bin/sonar-scanner \
                                 -Dsonar.projectKey=webapp \
                                 -Dsonar.projectName=webapp\
-                                -Dsonar.host.url=http://54.242.229.73:9000\
                                 -Dsonar.java.binaries=target/classes
                         """
                     }
