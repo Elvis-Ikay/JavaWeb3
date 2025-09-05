@@ -25,7 +25,7 @@ pipeline {
             steps {
                 script {
                     sh 'mvn clean install'
-//                     sh "cp target/WebAppCal-0.0.1.war target/WebAppCal-${BUILD_NUMBER}.war"
+                    sh "cp target/WebAppCal-0.0.1.war target/WebAppCal-${BUILD_NUMBER}.war"
                 }
             }
         }
