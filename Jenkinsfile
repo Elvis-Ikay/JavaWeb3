@@ -25,6 +25,7 @@ pipeline {
             steps {
                 script {
                     sh 'mvn clean install'
+                    sh "cp target/WebAppCal-0.0.1.war target/WebAppCal-${BUILD_NUMBER}.war"
                 }
             }
         }
@@ -36,7 +37,7 @@ pipeline {
                             ${SCANNER_HOME}/bin/sonar-scanner \
                                 -Dsonar.projectKey=webapp \
                                 -Dsonar.projectName=webapp\
-                                -Dsonar.host.url=http://54.242.120.190:9000\
+                                -Dsonar.host.url=http://54.242.229.73:9000\
                                 -Dsonar.java.binaries=target/classes
                         """
                     }
@@ -58,7 +59,7 @@ pipeline {
                         ]],
                         credentialsId: 'nexus-creds',
                         groupId: 'webapp',
-                        nexusUrl: '54.221.41.4:8081/',
+                        nexusUrl: '54.205.2.82:8081/',
                         nexusVersion: 'nexus3',
                         protocol: 'http',
                         repository: 'artifacts',
@@ -74,7 +75,7 @@ pipeline {
                         alternativeDeploymentContext: '',
                         credentialsId: 'nexusandtomcat',
                         path: '',
-                        url: 'http://18.234.246.34:8080/manager/text'
+                        url: 'http://52.91.10.193:8080/manager/text'
                     )], war: '**/*.war'
                 }
             }
